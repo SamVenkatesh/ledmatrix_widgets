@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use crate::matrix;
-use serialport::{SerialPortInfo, SerialPortType};
+use serialport::{SerialPortInfo, SerialPortType, UsbPortInfo};
 use std::{
     thread,
     time::{Duration, SystemTime},
@@ -37,20 +37,17 @@ impl LedMatrix {
         let mut found_ledmat: Vec<SerialPortInfo> = vec![];
         for ref sp in sports {
             // println!("{:?}", sp.port_type);
-            match sp.port_type {
-                SerialPortType::UsbPort(ref info) => {
-                    let info_c = info.clone();
-                    if info_c.vid == 12972 && info_c.pid == 32 {
-                        found_ledmat.push(sp.clone());
-                    }
+            if let SerialPortType::UsbPort(ref info) = sp.port_type {
+                let info_c = info.clone();
+                if info_c.vid == 12972 && info_c.pid == 32 {
+                    found_ledmat.push(sp.clone());
                 }
-                _ => {}
             }
         }
 
-        if found_ledmat.len() <= 0 {
+        if found_ledmat.is_empty() {
             println!("No LED matrix modules found.");
-            return vec![]
+            return vec![];
         }
 
         let mut mats: Vec<LedMatrix> = Vec::new();
