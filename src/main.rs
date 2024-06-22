@@ -59,7 +59,7 @@ fn main() {
     match program {
         Program::Default => {
             let mut mats = LedMatrix::detect();
-            if mats.len() == 0 {
+            if mats.is_empty() {
                 println!("No modules found, unable to continue.");
                 exit(1);
             }
