@@ -18,68 +18,68 @@ pub trait UpdatableWidget {
 
 // ================ Frames ================
 /// Battery frame with empty interior (9x4 shape)
-const BAT_FRAME: &'static [u8] = [
+const BAT_FRAME: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, ON_FULL, OFF, OFF,
     OFF, OFF, OFF, OFF, ON_FULL, ON_FULL, ON_FULL, OFF, OFF, OFF, OFF, OFF, OFF, ON_FULL, ON_FULL,
     ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF,
 ]
 .as_slice();
 
-const DIGIT_0: &'static [u8] = [
+const DIGIT_0: &[u8] = [
     OFF, ON_FULL, OFF, ON_FULL, OFF, ON_FULL, ON_FULL, OFF, ON_FULL, ON_FULL, OFF, ON_FULL, OFF,
     ON_FULL, OFF,
 ]
 .as_slice();
 
-const DIGIT_1: &'static [u8] = [
+const DIGIT_1: &[u8] = [
     OFF, OFF, ON_FULL, OFF, ON_DIM, ON_FULL, OFF, OFF, ON_FULL, OFF, OFF, ON_FULL, OFF, OFF,
     ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_2: &'static [u8] = [
+const DIGIT_2: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, OFF, OFF, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, OFF,
     ON_FULL, ON_FULL, ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_3: &'static [u8] = [
+const DIGIT_3: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, OFF, OFF, ON_FULL, ON_FULL, ON_FULL, OFF, OFF, OFF, ON_FULL,
     ON_FULL, ON_FULL, ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_4: &'static [u8] = [
+const DIGIT_4: &[u8] = [
     ON_FULL, OFF, ON_FULL, ON_FULL, OFF, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, OFF, ON_FULL,
     OFF, OFF, ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_5: &'static [u8] = [
+const DIGIT_5: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, OFF, ON_FULL, ON_FULL, ON_FULL, OFF, OFF, ON_FULL,
     ON_FULL, ON_FULL, ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_6: &'static [u8] = [
+const DIGIT_6: &[u8] = [
     OFF, ON_FULL, ON_DIM, ON_FULL, OFF, OFF, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, ON_FULL,
     ON_FULL, ON_FULL, ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_7: &'static [u8] = [
+const DIGIT_7: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, ON_DIM, OFF, ON_FULL, OFF, OFF, ON_FULL, OFF, ON_FULL, OFF, OFF,
     ON_FULL, OFF,
 ]
 .as_slice();
 
-const DIGIT_8: &'static [u8] = [
+const DIGIT_8: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, ON_FULL, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF,
     ON_FULL, ON_FULL, ON_FULL, ON_FULL,
 ]
 .as_slice();
 
-const DIGIT_9: &'static [u8] = [
+const DIGIT_9: &[u8] = [
     ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, ON_FULL, ON_FULL, ON_FULL, ON_FULL, OFF, OFF, ON_FULL,
     ON_DIM, ON_FULL, OFF,
 ]
@@ -174,17 +174,17 @@ impl UpdatableWidget for AllCPUsWidget {
     fn get_matrix(&self) -> Vec<u8> {
         // Create the matrix
         let width = self.get_shape().x;
-		let height = self.get_shape().y;
+        let height = self.get_shape().y;
         let mut out = vec![OFF; width * height];
 
         if self.merge_threads {
             for idy in 0..height {
-				let inverse_y = height - (idy + 1);
+                let inverse_y = height - (idy + 1);
                 for (idx, chunk) in self.cpu_usages.chunks(2).enumerate() {
                     let usage = (chunk[0] + chunk[1]) / 2;
-					if usage as usize >= inverse_y * 10 {
-						out[(idy * width) + idx] = ON_FULL;
-					}
+                    if usage as usize >= inverse_y * 10 {
+                        out[(idy * width) + idx] = ON_FULL;
+                    }
                 }
             }
         } else {

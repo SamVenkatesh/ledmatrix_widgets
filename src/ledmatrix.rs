@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use crate::matrix;
-use serialport::{SerialPortInfo, SerialPortType, UsbPortInfo};
+use serialport::{SerialPortInfo, SerialPortType};
 use std::{
     thread,
     time::{Duration, SystemTime},
@@ -57,11 +57,9 @@ impl LedMatrix {
 
         println!("Found LED matrix modules:");
         for i in mats.iter_mut() {
-            println!(
-                "{} - {}",
-                i.port_info.port_name.to_string(),
-                i.get_fw_version()
-            );
+            let port_name = i.port_info.port_name.clone();
+            let fw_version = i.get_fw_version();
+            println!("{} - {}", port_name, fw_version);
         }
 
         mats
