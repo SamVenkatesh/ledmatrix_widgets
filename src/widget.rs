@@ -133,7 +133,7 @@ impl UpdatableWidget for BatteryWidget {
     }
 
     fn get_shape(&self) -> Shape {
-        return Shape { x: 9, y: 4 };
+        Shape { x: 9, y: 4 }
     }
 }
 
@@ -201,13 +201,13 @@ impl UpdatableWidget for AllCPUsWidget {
     }
 
     fn get_shape(&self) -> Shape {
-        return match self.merge_threads {
+        match self.merge_threads {
             false => Shape {
                 x: 9,
                 y: self.cpu_usages.len(),
             },
             true => Shape { x: 8, y: 8 },
-        };
+        }
     }
 }
 
@@ -244,8 +244,8 @@ impl ClockWidget {
         let second_digit = Self::render_digit(num % 10);
         for idx in 0..(9 * 5) {
             let cell = match idx % 9 {
-                1 | 2 | 3 => first_digit[((idx / 9) * 3) + (idx % 9) - 1],
-                5 | 6 | 7 => second_digit[((idx / 9) * 3) + idx % 9 - 5],
+                1..=3 => first_digit[((idx / 9) * 3) + (idx % 9) - 1],
+                5..=7 => second_digit[((idx / 9) * 3) + idx % 9 - 5],
                 _ => OFF,
             };
             numrow[idx] = cell;
@@ -268,6 +268,6 @@ impl UpdatableWidget for ClockWidget {
     }
 
     fn get_shape(&self) -> Shape {
-        return Shape { x: 9, y: 11 };
+        Shape { x: 9, y: 11 }
     }
 }
